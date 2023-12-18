@@ -91,7 +91,7 @@ namespace LaboratoryWork_2
             get
             {
                 return 0.1 * WindSpeed +
-                WindSpeed * (rand.NextDouble() * 2 - 1) * rand.Next(-1, 2) + WindSpeed;
+                WindSpeed * (rand.NextDouble() * 2 - 1) /** rand.Next(-1, 2)*/ + WindSpeed;
             }
             set { ErrWindSpeed = value; }
         }
@@ -120,22 +120,22 @@ namespace LaboratoryWork_2
         /// <summary>
         /// Получить погрешности измерений
         /// </summary>
-        //public void GetMeasurementErrors()
-        //{
-        //    // Погрешность истинной воздушной скорости
-        //    ErrTrueAirspeed = 0.01 * TrueAirspeed + 
-        //        TrueAirspeed * (rand.NextDouble() * 2 - 1) * rand.Next(-1, 2) + TrueAirspeed;
+        public void GetMeasurementErrors()
+        {
+            // Погрешность истинной воздушной скорости
+            ErrTrueAirspeed = 0.01 * TrueAirspeed +
+                TrueAirspeed * (rand.NextDouble() * 2 - 1) * rand.Next(-1, 2) + TrueAirspeed;
 
-        //    // Погрешность угла курса
-        //    ErrCourseAngle = Math.PI / 180 + (Math.PI / 180 * rand.Next(-1, 2)) + CourseAngle;
+            // Погрешность угла курса
+            ErrCourseAngle = Math.PI / 180 + (Math.PI / 180 * rand.Next(-1, 2)) + CourseAngle;
 
-        //    // Погрешность скорости ветра
-        //    ErrWindSpeed = 0.01 * WindSpeed +
-        //        WindSpeed * (rand.NextDouble() * 2 - 1) * rand.Next(-1, 2) + WindSpeed;
+            // Погрешность скорости ветра
+            ErrWindSpeed = 0.01 * WindSpeed +
+                WindSpeed * (rand.NextDouble() * 2 - 1) * rand.Next(-1, 2) + WindSpeed;
 
-        //    // Погрешность угла ветра
-        //    ErrWindAngle = -Math.PI / 180 + (Math.PI / 180 * rand.Next(-1, 2)) + WindAngle; 
-        //}
+            // Погрешность угла ветра
+            ErrWindAngle = -Math.PI / 180 + (Math.PI / 180 * rand.Next(-1, 2)) + WindAngle;
+        }
 
 
 

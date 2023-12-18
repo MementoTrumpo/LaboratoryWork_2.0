@@ -470,7 +470,7 @@
             Margin = new Padding(4);
             Name = "Form1";
             Text = "Form1";
-            Load += Form1_Load;
+            
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);

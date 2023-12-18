@@ -4,6 +4,9 @@ using System.Windows.Input;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Web;
+using ConsoleProjectForNavigationSystem;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
+using System.Drawing;
 
 namespace LaboratoryWork_2._0
 {
@@ -11,7 +14,11 @@ namespace LaboratoryWork_2._0
     {
         private TextBox[] textBoxes;
 
+        private RadioButton[] radioButtons;
+
         private Solver solve;
+
+        private Calculator calculator;
 
         private string trueAirspeed
         {
@@ -43,6 +50,7 @@ namespace LaboratoryWork_2._0
             set { mapAngle_textBox.Text = value; }
         }
 
+       
         public Form1()
         {
             InitializeComponent();
@@ -50,6 +58,8 @@ namespace LaboratoryWork_2._0
             textBoxes = new TextBox[] {trueAirSpeed_textBox, courseAngle_textBox,
                 windSpeed_textBox, windAngle_textBox, mapAngle_textBox };
 
+            radioButtons = new RadioButton[] { radioButton1, radioButton2, radioButton3, radioButton4,
+            radioButton5, radioButton6, radioButton7};
 
             TextBoxSettings();
 
@@ -57,27 +67,45 @@ namespace LaboratoryWork_2._0
         }
 
 
-        private void Form1_Load(object sender, EventArgs e)
+        //private void Form1_Load(object sender, EventArgs e)
+        //{
+
+
+        //    double trueAirspeed = 252 / 3.6;
+        //    double courseAngle = (2 * Math.PI / 180);
+        //    double windSpeed = 116 / 3.6;
+        //    double windAngle = (120 * Math.PI / 180);
+        //    double allTime = 1.89 * 3600;
+        //    double timeOfCycles = 0;
+        //    double deltaTime = 1;
+
+        //    //Aircraft realAircraft = new Aircraft(trueAirspeed, courseAngle, windSpeed, windAngle);
+        //    //Aircraft measureAircraft = new Aircraft(trueAirspeed, courseAngle, windSpeed, windAngle);
+        //    //solve = new Solver(realAircraft, measureAircraft, allTime, timeOfCycles, deltaTime);
+        //    //solve.GetSolve();
+        //    // ShowGraphs();
+
+
+        //    //Aircraft perfectAircraft = new Aircraft(332 / 3.6, 2 * Math.PI / 180, 116 / 3.6, 120 * Math.PI / 180, 0);
+        //    //RealAircraft realAircraft = new RealAircraft(332 / 3.6, 2 * Math.PI / 180, 116 / 3.6, 120 * Math.PI / 180, 0);
+
+        //    //new Calculator(perfectAircraft, realAircraft, 1.89 * 3600, 0, 1);
+
+        //    //calculator.GetSolution();
+
+
+        //    //ShowInformation();
+
+
+        //}
+
+        private void ShowInformation()
         {
-
-
-            double trueAirspeed = 252 / 3.6;
-            double courseAngle = (2 * Math.PI / 180);
-            double windSpeed = 116 / 3.6;
-            double windAngle = (120 * Math.PI / 180);
-            double allTime = 1.89 * 3600;
-            double timeOfCycles = 0;
-            double deltaTime = 1;
-
-            //Aircraft realAircraft = new Aircraft(trueAirspeed, courseAngle, windSpeed, windAngle);
-            //Aircraft measureAircraft = new Aircraft(trueAirspeed, courseAngle, windSpeed, windAngle);
-            //solve = new Solver(realAircraft, measureAircraft, allTime, timeOfCycles, deltaTime);
-            //solve.GetSolve();
-            // ShowGraphs();
-
-
+            foreach(var x in calculator.Difference_X_Axis)
+            {
+                Trace.WriteLine(x);
+            }
         }
-
 
         /// <summary>
         /// Отрисовка графиков при помощи ZedGraph
@@ -97,6 +125,23 @@ namespace LaboratoryWork_2._0
             zedGraphControl.Invalidate();
         }
 
+        private void ShowGraph()
+        {
+            zedGraphControl.GraphPane.CurveList.Clear();
+
+            calculator.PlotGraph(zedGraphControl, calculator.AllPointsOfTime.ToArray(),
+                calculator.Difference_X_Axis.ToArray(), "Разница по оси X", Color.Black);
+
+
+            calculator.PlotGraph(zedGraphControl, calculator.AllPointsOfTime.ToArray(),
+                calculator.Difference_Y_Axis.ToArray(), "Разница по оси Y", Color.Red);
+
+            zedGraphControl.AxisChange();
+
+            zedGraphControl.Invalidate();
+
+        }
+
         /// <summary>
         /// Определяет нажатие букв и специалных символов
         /// </summary>
@@ -111,7 +156,7 @@ namespace LaboratoryWork_2._0
                 MessageBox.Show("Пожалуйста, вводите только числа и только одну запятую!");
             }
 
-            // only allow one decimal point
+            // Разрешена только одна запятая !
             if ((e.KeyChar == ',') && ((sender as TextBox).Text.IndexOf(',') > -1))
             {
                 e.Handled = true;
@@ -119,7 +164,9 @@ namespace LaboratoryWork_2._0
             }
         }
 
-     
+        /// <summary>
+        /// Ограничение ввода в TextBox
+        /// </summary>
        private void TextBoxSettings()
         {
             foreach (var textBox in textBoxes)
@@ -136,25 +183,56 @@ namespace LaboratoryWork_2._0
             double windSpeed = Convert.ToDouble(this.windSpeed) / 3.6;
             double windAngle = Convert.ToDouble(this.windAngle) * Math.PI / 180;
             double mapAngle = Convert.ToDouble(this.mapAngle) * Math.PI / 180;
-            double flightTime;
 
-            Aircraft1 realAircraft = new Aircraft1(trueAirspeed, courseAngle, windSpeed, windAngle, mapAngle);
-            Aircraft1 measureAircraft = new Aircraft1(trueAirspeed, courseAngle, windSpeed, windAngle, mapAngle);
+            Aircraft perfectAircraft = new Aircraft(trueAirspeed, courseAngle, windSpeed, windAngle, mapAngle);
+            RealAircraft realAircraft = new RealAircraft(trueAirspeed, courseAngle, windSpeed, windAngle, mapAngle);
+
+            Aircraft1 pAircraft = new Aircraft1(trueAirspeed, courseAngle, windSpeed, windAngle, mapAngle);
+            Aircraft1 rAircraft = new Aircraft1(trueAirspeed, courseAngle, windSpeed, windAngle, mapAngle);
+
+            //solve = new Solver(pAircraft, rAircraft, 1.89 * 3600, 0, 1, 0);
+            //solve.GetSolve();
+            //ShowGraphs();
 
             if (radioButton1.Checked == true)
             {
+                realAircraft.FirstTask();
                 
+                calculator = new Calculator(perfectAircraft, realAircraft, 1.89 * 3600, 0, 1);
+                calculator.GetSolution();
+                ShowGraph();
+            }
+            else if (radioButton2.Checked == true)
+            {
+                realAircraft.SecondTask();
+                calculator = new Calculator(perfectAircraft, realAircraft, 1.89 * 3600, 0, 1);
+                calculator.GetSolution();
+                ShowGraph();
+
+            }
+            else if (radioButton3.Checked == true)
+            {
+                realAircraft.ThirdTask();
+
+                calculator = new Calculator(perfectAircraft, realAircraft, 1.89 * 3600, 0, 1);
+                calculator.GetSolution();
+                ShowGraph();
+
             }
 
 
 
-            solve = new Solver(realAircraft, measureAircraft, 1.89 * 3600, 0, 1, 4);
 
-            solve.GetSolve();
-            ShowGraphs();
+            //calculator = new Calculator(perfectAircraft, realAircraft, 1.89 * 3600, 0, 1);
+            //calculator.GetSolution();
+            //ShowGraph();
+            //solve = new Solver(realAircraft, perfectAircraft,1.89 * 3600, 0, 1, 4);
+
+            //solve.GetSolve();
+            //ShowGraphs();
 
         }
 
-       
+
     }
 }

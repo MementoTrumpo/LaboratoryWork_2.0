@@ -7,14 +7,14 @@ using System.Transactions;
 
 namespace ConsoleProjectForNavigationSystem
 {
-    public abstract class Aircraft
+    public class Aircraft
     {
         private double _trueAirspeed;
 
         /// <summary>
         /// Истинная скорость
         /// </summary>
-        public double TrueAirspeed
+        public virtual double TrueAirspeed
         {
             get { return _trueAirspeed; }
             set { _trueAirspeed = value; }
@@ -24,7 +24,7 @@ namespace ConsoleProjectForNavigationSystem
         /// <summary>
         /// Угол курса
         /// </summary>
-        public double AngleCourse
+        public virtual double AngleCourse
         {
             get { return _angleCourse; }
             set { _angleCourse = value; }
@@ -34,7 +34,7 @@ namespace ConsoleProjectForNavigationSystem
         /// <summary>
         /// Скорость ветра
         /// </summary>
-        public double WindSpeed
+        public virtual double WindSpeed
         {
             get { return _windSpeed; }
             set { _windSpeed = value; }
@@ -44,18 +44,76 @@ namespace ConsoleProjectForNavigationSystem
         /// <summary>
         /// Угол ветра
         /// </summary>
-        public double WindAngle
+        public virtual double WindAngle
         {
             get { return _windAngle; }
             set { _windAngle = value; }
         }
 
-        public Aircraft(double trueAirspeed, double angleCourse, double windSpeed, double windAngle)
+        private double _mapAngle;
+        /// <summary>
+        /// Угол карты
+        /// </summary>
+        public virtual double MapAngle
         {
-            _trueAirspeed = trueAirspeed;
-            _angleCourse = angleCourse;
-            _windSpeed = windSpeed;
-            _windAngle = windAngle;
+            get { return _mapAngle; }
+            set { _mapAngle = value; }
+        }
+
+        private double _x;
+        /// <summary>
+        /// Координата X летательного аппарата
+        /// </summary>
+        public double X
+        {
+            get { return _x; }
+            set { _x = value; }
+        }
+
+        private double _y;
+        /// <summary>
+        /// Координата Y летательного аппарата
+        /// </summary>
+        public double Y
+        {
+            get { return _y; }
+            set { _y = value; }
+        }
+        /// <summary>
+        /// Начальное значение X
+        /// </summary>
+        public double X_INITIAL_VALUE = 0;
+
+        /// <summary>
+        /// Начальноое значение Y
+        /// </summary>
+        public double Y_INITIAL_VALUE = 0;
+
+        public Aircraft(double trueAirspeed, double angleCourse, double windSpeed, double windAngle, double mapAngle)
+        {
+            TrueAirspeed = trueAirspeed;
+            AngleCourse = angleCourse;
+            WindSpeed = windSpeed;
+            WindAngle = windAngle;
+            MapAngle = mapAngle;
+        }
+
+        /// <summary>
+        /// Находит координату X летательного аппарата
+        /// </summary>
+        /// <returns>Координата X</returns>
+        public virtual double ReturnCoordinateX()
+        {
+            return TrueAirspeed * Math.Sin(AngleCourse - MapAngle) + WindSpeed * Math.Sin(WindAngle - MapAngle);
+        }
+        
+        /// <summary>
+        /// Находит координату Y летательного аппарата
+        /// </summary>
+        /// <returns>Координата Y</returns>
+        public virtual double ReturnCoordinateY()
+        {
+            return TrueAirspeed * Math.Cos(AngleCourse - MapAngle) + WindSpeed * Math.Cos(WindAngle - MapAngle);
         }
     }
 }
