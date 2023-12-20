@@ -53,7 +53,7 @@
             label10 = new Label();
             flowLayoutPanel6 = new FlowLayoutPanel();
             label11 = new Label();
-            textBox1 = new TextBox();
+            flightTime_textBox = new TextBox();
             label12 = new Label();
             radioButton1 = new RadioButton();
             radioButton2 = new RadioButton();
@@ -328,7 +328,7 @@
             // flowLayoutPanel6
             // 
             flowLayoutPanel6.Controls.Add(label11);
-            flowLayoutPanel6.Controls.Add(textBox1);
+            flowLayoutPanel6.Controls.Add(flightTime_textBox);
             flowLayoutPanel6.Controls.Add(label12);
             flowLayoutPanel6.Location = new Point(15, 514);
             flowLayoutPanel6.Margin = new Padding(4);
@@ -350,14 +350,14 @@
             label11.Text = "Время полёта";
             label11.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // textBox1
+            // flightTime_textBox
             // 
-            textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            textBox1.Location = new Point(5, 33);
-            textBox1.Margin = new Padding(4);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(145, 34);
-            textBox1.TabIndex = 4;
+            flightTime_textBox.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            flightTime_textBox.Location = new Point(5, 33);
+            flightTime_textBox.Margin = new Padding(4);
+            flightTime_textBox.Name = "flightTime_textBox";
+            flightTime_textBox.Size = new Size(145, 34);
+            flightTime_textBox.TabIndex = 4;
             // 
             // label12
             // 
@@ -384,7 +384,7 @@
             // radioButton2
             // 
             radioButton2.AutoSize = true;
-            radioButton2.Location = new Point(412, 697);
+            radioButton2.Location = new Point(404, 697);
             radioButton2.Name = "radioButton2";
             radioButton2.Size = new Size(122, 25);
             radioButton2.TabIndex = 13;
@@ -395,7 +395,7 @@
             // radioButton3
             // 
             radioButton3.AutoSize = true;
-            radioButton3.Location = new Point(564, 695);
+            radioButton3.Location = new Point(564, 697);
             radioButton3.Name = "radioButton3";
             radioButton3.Size = new Size(122, 25);
             radioButton3.TabIndex = 14;
@@ -406,7 +406,7 @@
             // radioButton4
             // 
             radioButton4.AutoSize = true;
-            radioButton4.Location = new Point(706, 695);
+            radioButton4.Location = new Point(719, 697);
             radioButton4.Name = "radioButton4";
             radioButton4.Size = new Size(122, 25);
             radioButton4.TabIndex = 15;
@@ -417,7 +417,7 @@
             // radioButton5
             // 
             radioButton5.AutoSize = true;
-            radioButton5.Location = new Point(847, 697);
+            radioButton5.Location = new Point(881, 697);
             radioButton5.Name = "radioButton5";
             radioButton5.Size = new Size(122, 25);
             radioButton5.TabIndex = 16;
@@ -428,7 +428,7 @@
             // radioButton6
             // 
             radioButton6.AutoSize = true;
-            radioButton6.Location = new Point(1007, 697);
+            radioButton6.Location = new Point(1022, 697);
             radioButton6.Name = "radioButton6";
             radioButton6.Size = new Size(122, 25);
             radioButton6.TabIndex = 17;
@@ -439,12 +439,12 @@
             // radioButton7
             // 
             radioButton7.AutoSize = true;
-            radioButton7.Location = new Point(1146, 697);
+            radioButton7.Location = new Point(1164, 697);
             radioButton7.Name = "radioButton7";
-            radioButton7.Size = new Size(176, 25);
+            radioButton7.Size = new Size(122, 25);
             radioButton7.TabIndex = 18;
             radioButton7.TabStop = true;
-            radioButton7.Text = "Обычное счисление";
+            radioButton7.Text = "Задание №7";
             radioButton7.UseVisualStyleBackColor = true;
             // 
             // Form1
@@ -470,7 +470,6 @@
             Margin = new Padding(4);
             Name = "Form1";
             Text = "Form1";
-            
             flowLayoutPanel1.ResumeLayout(false);
             flowLayoutPanel1.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
@@ -513,7 +512,7 @@
         private Label label10;
         private FlowLayoutPanel flowLayoutPanel6;
         private Label label11;
-        private TextBox textBox1;
+        private TextBox flightTime_textBox;
         private Label label12;
         private RadioButton radioButton1;
         private RadioButton radioButton2;

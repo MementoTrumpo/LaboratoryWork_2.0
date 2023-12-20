@@ -1,0 +1,14 @@
+Type calculation: 0	Date and time: 20.12.2023 3:13:16
+MAX diff in X axis: 15145,959009449434	MAX diff in Y axis: 8044,803770817409
+Type calculation: 1	Date and time: 20.12.2023 3:13:18
+MAX diff in X axis: 15073,373647979199	MAX diff in Y axis: 8057,13118202152
+Type calculation: 2	Date and time: 20.12.2023 3:13:19
+MAX diff in X axis: 113684,73321367675	MAX diff in Y axis: -0,7237767223169271
+Type calculation: 3	Date and time: 20.12.2023 3:13:21
+MAX diff in X axis: 5126,874803358631	MAX diff in Y axis: 8500,101537831186
+Type calculation: 4	Date and time: 20.12.2023 3:13:24
+MAX diff in X axis: 76,83024328987813	MAX diff in Y axis: 20,910958739637863
+Type calculation: 5	Date and time: 20.12.2023 3:13:27
+MAX diff in X axis: 146,36860826142947	MAX diff in Y axis: -1,4268339883568046
+Type calculation: 6	Date and time: 20.12.2023 3:13:29
+MAX diff in X axis: 5,239641380707326	MAX diff in Y axis: 16,9140601491672

@@ -8,7 +8,7 @@ namespace ConsoleProjectForNavigationSystem
 {
     public class RealAircraft : Aircraft
     {
-        Random rand = new Random();
+        static Random rand = new Random();
 
         /// <summary>
         /// Измерение датчиками истинной скорости 
@@ -24,7 +24,7 @@ namespace ConsoleProjectForNavigationSystem
         /// </summary>
         public double TRUE_AIRSPEED_RANDOM_COMPONENT
         {
-            get { return TrueAirspeed * 0.01 * (rand.NextDouble() * 2 - 1); }
+            get { return _trueAirspeedRandomComponent; } // TrueAirspeed * 0.01 * (rand.NextDouble() * 2 - 1);
             set { _trueAirspeedRandomComponent = value; }
         }
 
@@ -34,7 +34,7 @@ namespace ConsoleProjectForNavigationSystem
         /// </summary>
         public double TRUE_AIRSPEED_CONSTANT_COMPONENT
         {
-            get { return 0.01 * TrueAirspeed; }
+            get { return _trueAirspeedConstantComponent; } // 0.01 * TrueAirspeed;
             set { _trueAirspeedConstantComponent = value; }
         }
         //---------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ namespace ConsoleProjectForNavigationSystem
         /// </summary>
         public double ANGLE_COURSE_RANDOM_COMPONENT 
         {
-            get { return Math.PI / 180 * ((rand.NextDouble() * 2) - 1); }
+            get { return _angleCourseRandomComponent; } // Math.PI / 180 * ((rand.NextDouble() * 2) - 1); 
             set { _angleCourseRandomComponent = value; }
         }
         
@@ -65,7 +65,7 @@ namespace ConsoleProjectForNavigationSystem
         /// </summary>
         public double ANGLE_COURSE_CONSTANT_COMPONENT
         {
-            get { return Math.PI / 180; }
+            get { return _angleCourseConstantComponent; } // Math.PI / 180;
             set { _angleCourseConstantComponent = value; }
         }
         //----------------------------------------------------------------------------------
@@ -86,7 +86,7 @@ namespace ConsoleProjectForNavigationSystem
         /// 
         public double WIND_SPEED_RANDOM_COMPONENT
         {
-            get { return  0.01 * WindSpeed * (rand.NextDouble() * 2 - 1); }
+            get { return _windSpeedRandomComponent; } // 0.01 * WindSpeed * (rand.NextDouble() * 2 - 1);
             set { _windSpeedRandomComponent = value; }
         }
 
@@ -97,8 +97,8 @@ namespace ConsoleProjectForNavigationSystem
         /// </summary>
         public double WIND_SPEED_CONSTANT_COMPONENT
         {
-            get { return 0.01 * WindSpeed; }
-            set {  _windSpeedConstantComponent = value;}
+            get { return _windSpeedConstantComponent; } // 0.01 * WindSpeed;
+            set { _windSpeedConstantComponent = value; }
         }
         //--------------------------------------------------------------------------
 
@@ -117,10 +117,10 @@ namespace ConsoleProjectForNavigationSystem
         /// </summary>
         public double WIND_ANGLE_RANDOM_COMPONENT
         {
-            get { return Math.PI / 180 * (rand.NextDouble() * 2 - 1); }
+            get { return _windAngleRandomComponent; } // Math.PI / 180 * (rand.NextDouble() * 2 - 1);
             set { _windAngleRandomComponent = value; }
         }
-        
+
         private double _windAngleConstantComponent;
 
         /// <summary>
@@ -128,10 +128,14 @@ namespace ConsoleProjectForNavigationSystem
         /// </summary>
         public double WIND_ANGLE_CONSTANT_COMPONENT
         {
-            get { return 1 * -Math.PI / 180; }
+            get { return _windAngleConstantComponent; } //1 * -Math.PI / 180;
             set { _windAngleConstantComponent = value; }
         }
 
+        /// <summary>
+        /// Выбор типа вычисления в зависимости от задания
+        /// </summary>
+        public int OptionCalculate { get; set; }
 
         //public override double TrueAirspeed
         //{
@@ -157,7 +161,7 @@ namespace ConsoleProjectForNavigationSystem
         //    set => base.WindAngle = value;
         //}
 
-        public RealAircraft(double trueAirspeed, double angleCourse, double windSpeed, double windAngle, double mapAngle) 
+        public RealAircraft(double trueAirspeed, double angleCourse, double windSpeed, double windAngle, double mapAngle, int optionCalculate) 
             : base(trueAirspeed, angleCourse, windSpeed, windAngle, mapAngle)
         {
             TrueAirspeed = trueAirspeed;
@@ -165,7 +169,29 @@ namespace ConsoleProjectForNavigationSystem
             WindSpeed = windSpeed;
             WindAngle = windAngle;
             MapAngle = mapAngle;
+            OptionCalculate = optionCalculate;
+        }
 
+        /// <summary>
+        /// Установка значений постоянных составляющих погрешностей
+        /// </summary>
+        public void SetValueOfConstantError()
+        {
+            TRUE_AIRSPEED_CONSTANT_COMPONENT = 0.01 * TrueAirspeed;
+            ANGLE_COURSE_CONSTANT_COMPONENT = Math.PI / 180;
+            WIND_SPEED_CONSTANT_COMPONENT = 0.01 * WindSpeed;
+            WIND_ANGLE_CONSTANT_COMPONENT = - Math.PI / 180;
+        }
+
+        /// <summary>
+        /// Установка значений случайных составляющих погрешностей
+        /// </summary>
+        public void SetValueOfRandomError()
+        {
+            TRUE_AIRSPEED_RANDOM_COMPONENT = 0.01 * TrueAirspeed * (rand.NextDouble() * 2 - 1);
+            ANGLE_COURSE_RANDOM_COMPONENT = Math.PI / 180 * (rand.NextDouble() * 2 - 1);
+            WIND_SPEED_RANDOM_COMPONENT = 0.01 * WindSpeed * (rand.NextDouble() * 2 - 1);
+            WIND_ANGLE_RANDOM_COMPONENT = Math.PI / 180 * (rand.NextDouble() * 2 - 1);
         }
 
         public override double ReturnCoordinateX()
@@ -184,26 +210,36 @@ namespace ConsoleProjectForNavigationSystem
         /// <summary>
         /// Обнуление случайной составляющей всех измерений
         /// </summary>
-        public void FirstTask()
+        public void ZeroingAllRandomComponent()
         {
-            TRUE_AIRSPEED_RANDOM_COMPONENT = 0d;
-            ANGLE_COURSE_RANDOM_COMPONENT = 0d;
-            WIND_ANGLE_RANDOM_COMPONENT = 0d;
-            WIND_SPEED_RANDOM_COMPONENT = 0d;
+            TRUE_AIRSPEED_RANDOM_COMPONENT = 0;
+            ANGLE_COURSE_RANDOM_COMPONENT = 0;
+            WIND_ANGLE_RANDOM_COMPONENT = 0;
+            WIND_SPEED_RANDOM_COMPONENT = 0;
         }
 
         /// <summary>
         /// Увеличение постоянной составляющей погрешности измерителя на порядок (ПО ВАРИАНТУ) - Курсовая система
         /// </summary>
-        public void SecondTask()
+        public void IncreasingConstantComponent()
         {
             ANGLE_COURSE_CONSTANT_COMPONENT = Math.PI / 180 * 10;
         }
 
         /// <summary>
+        /// Уменьшение постоянной составляющей погрешности измерителя на порядок
+        /// </summary>
+        public void ReducingConstantComponent()
+        {
+
+            ANGLE_COURSE_CONSTANT_COMPONENT = Math.PI / 180 * 0.1;
+           
+        }
+
+        /// <summary>
         /// Обнуление постоянной составляющей погрешности измерителя
         /// </summary>
-        public void ThirdTask()
+        public void ZeroingAllConstantComponent()
         {
             TRUE_AIRSPEED_CONSTANT_COMPONENT = 0;
             ANGLE_COURSE_CONSTANT_COMPONENT = 0;
@@ -211,6 +247,23 @@ namespace ConsoleProjectForNavigationSystem
             WIND_SPEED_CONSTANT_COMPONENT = 0;
         }
 
+        /// <summary>
+        /// Увеличение случайной составляющей измерителя на порядок по варианту (Курсовая система)
+        /// </summary>
+        public void IncreazingRandomComponent()
+        {
+            ANGLE_COURSE_RANDOM_COMPONENT = 10 * Math.PI / 180 * ((rand.NextDouble() * 2) - 1);
+        }
+
+        /// <summary>
+        /// Уменьшение случайной составляющей измерителя на порядок по варианту (Курсовая система)
+        /// </summary>
+        public void ReducingRandomComponent()
+        {
+            ANGLE_COURSE_RANDOM_COMPONENT =  0.1 * Math.PI / 180 * ((rand.NextDouble() * 2) - 1);
+        }
+
+        
 
     }
 }
